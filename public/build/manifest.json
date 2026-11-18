@@ -1,0 +1,26 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-D93IBowk.css",
+    "name": "app",
+    "names": [
+      "app.css"
+    ],
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/css/perpus.css": {
+    "file": "assets/perpus-eH9y14l0.css",
+    "name": "perpus",
+    "names": [
+      "perpus.css"
+    ],
+    "src": "resources/css/perpus.css",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-Bk8Plnzc.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  }
+}
