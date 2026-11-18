@@ -21,8 +21,11 @@ class UserSeeder extends Seeder
         foreach ($akun as [$nama, $email, $role]) {
             $u = User::updateOrCreate(['email' => $email], [
                 'name' => $nama,
-                'password' => 'password',   // di-hash otomatis oleh cast 'hashed'
+                'password' => $email === 'admin@perpus.test'
+                    ? 'Ganti!250441100122#'
+                    : 'password',
             ]);
+
             $u->syncRoles([$role]);
         }
 

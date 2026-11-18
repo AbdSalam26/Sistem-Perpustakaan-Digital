@@ -30,11 +30,18 @@ class PeminjamanController extends Controller
         return view('peminjaman.saya', compact('data'));
     }
 
-    // Akses riwayat user lain ditolak, bukan hanya dicek lewat permission
+    // // Akses riwayat user lain ditolak, bukan hanya dicek lewat permission
+    // public function riwayat(User $user)
+    // {
+    //     abort_unless($user->id === auth()->id(), 403, 'Anda tidak boleh melihat riwayat pengguna lain.');
+
+    //     return $this->saya();
+    // }
+
+    // DIHAPUS (Modul 5): pemeriksaan kepemilikan manual
     public function riwayat(User $user)
     {
         abort_unless($user->id === auth()->id(), 403, 'Anda tidak boleh melihat riwayat pengguna lain.');
-
         return $this->saya();
     }
     // A4: RENTAN IDOR

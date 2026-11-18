@@ -54,8 +54,8 @@ Route::middleware('auth')->group(function () {
         ->middleware('permission:mengajukan_peminjaman_buku')->name('peminjaman.ajukan');
     Route::get('/peminjaman/saya', [PeminjamanController::class, 'saya'])
         ->middleware('permission:melihat_riwayat_peminjaman_sendiri')->name('peminjaman.saya');
-    Route::get('/riwayat/{user}', [PeminjamanController::class, 'riwayat'])
-        ->middleware('permission:melihat_riwayat_peminjaman_sendiri')->name('peminjaman.riwayat');
+    // Route::get('/riwayat/{user}', [PeminjamanController::class, 'riwayat'])
+    //     ->middleware('permission:melihat_riwayat_peminjaman_sendiri')->name('peminjaman.riwayat');
 
     // Operasional: admin dan petugas
     Route::get('/kelola/peminjaman', [PeminjamanController::class, 'daftar'])
@@ -81,6 +81,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/daftar-buku', [BukuController::class, 'daftar'])->name('buku.daftar');             // A1 (ditambal di view)
     Route::get('/buku-cari', [BukuController::class, 'cari'])->name('buku.cari');                   // A2 (ditambal di controller)
     Route::get('/peminjaman/{id}', [PeminjamanController::class, 'show'])->name('peminjaman.show'); // A4 (ditutup Policy di Soal 4)
+
+    // soal 5
+    Route::get('/demo/error', function () {
+        throw new RuntimeException('Contoh kesalahan');
+    });
 });
 
 require __DIR__ . '/auth.php';

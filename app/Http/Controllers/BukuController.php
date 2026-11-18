@@ -14,11 +14,9 @@ class BukuController extends Controller
         return view('buku.index');
     }
 
-    // Detail buku (Modul 1 sampai 5)
     public function show($id)
     {
-        $buku = Buku::with('kategori')->find($id);
-
+        $buku = Buku::findOrFail($id);
         return view('buku.show', compact('buku'));
     }
 
