@@ -17,10 +17,20 @@ try {
    $app = require_once __DIR__ . '/../bootstrap/app.php';
    $app->useStoragePath($storage);
 
+   // Jalankan booting secara manual supaya error pertama tidak tertelan
+   $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+   $kernel->bootstrap();
+
    $app->handleRequest(Illuminate\Http\Request::capture());
 } catch (\Throwable $e) {
    http_response_code(500);
-   echo '<pre>' . get_class($e) . "\n" . $e->getMessage() . "\n\n";
-   echo $e->getFile() . ':' . $e->getLine() . "\n\n";
-   echo $e->getTraceAsString() . '</pre>';
+   echo '<pre>';
+   $x = $e;
+   while ($x) {
+      echo get_class($x) . "\n" . $x->getMessage() . "\n";
+      echo $x->getFile() . ':' . $x->getLine() . "\n\n";
+      $x = $x->getPrevious();
+   }
+   echo substr($e->getTraceAsString(), 0, 3000);
+   echo '</pre>';
 }
