@@ -2,8 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\User;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,9 +20,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Soal 3: Gate pusat untuk pengelolaan buku (hanya admin dan petugas)
-        Gate::define('kelola-buku', function (User $user) {
-            return $user->hasAnyRole(['admin', 'petugas']);
-        });
+        // Di Vercel (production) semua URL aset harus https
+        if (config('app.env') === 'production') {
+            URL::forceScheme('https');
+        }
     }
 }
