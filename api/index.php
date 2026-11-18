@@ -2,10 +2,25 @@
 ini_set('display_errors', '1');
 error_reporting(E_ALL);
 
-echo "PHP jalan. Versi: " . PHP_VERSION . "<br>";
-echo "pdo_pgsql: " . (extension_loaded('pdo_pgsql') ? 'ADA' : 'TIDAK ADA') . "<br>";
-echo "mbstring: " . (extension_loaded('mbstring') ? 'ADA' : 'TIDAK ADA') . "<br>";
-echo "vendor: " . (file_exists(__DIR__ . '/../vendor/autoload.php') ? 'ADA' : 'TIDAK ADA') . "<br>";
-echo "bootstrap: " . (file_exists(__DIR__ . '/../bootstrap/app.php') ? 'ADA' : 'TIDAK ADA') . "<br>";
-echo "APP_KEY: " . (getenv('APP_KEY') ? 'TERISI' : 'KOSONG') . "<br>";
-echo "DB_HOST: " . (getenv('DB_HOST') ?: 'KOSONG') . "<br>";
+define('LARAVEL_START', microtime(true));
+
+try {
+   $storage = '/tmp/storage';
+   foreach (['app/public', 'framework/cache/data', 'framework/sessions', 'framework/views', 'logs'] as $dir) {
+      if (!is_dir("$storage/$dir")) {
+         mkdir("$storage/$dir", 0755, true);
+      }
+   }
+
+   require __DIR__ . '/../vendor/autoload.php';
+
+   $app = require_once __DIR__ . '/../bootstrap/app.php';
+   $app->useStoragePath($storage);
+
+   $app->handleRequest(Illuminate\Http\Request::capture());
+} catch (\Throwable $e) {
+   http_response_code(500);
+   echo '<pre>' . get_class($e) . "\n" . $e->getMessage() . "\n\n";
+   echo $e->getFile() . ':' . $e->getLine() . "\n\n";
+   echo $e->getTraceAsString() . '</pre>';
+}
